@@ -28,6 +28,28 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Learn More
+## 🛠️ Database Setup & Troubleshooting
 
-To learn more about the project architecture or to contribute, please refer to the internal documentation.
+If you encounter `ECONNREFUSED 127.0.0.1:3306`, it means the application cannot connect to your MySQL database.
+
+### 1. Local Development
+Ensure your MySQL server (XAMPP, WAMP, or standalone) is running.
+- **Diagnostic Tool**: Run `node scripts/check-db.js` to verify your `.env.local` settings.
+- **Initialize Tables**: If the database is connected but tables are missing, run:
+  ```bash
+  node scripts/add-auth-tables.js
+  node migrate-db.js
+  ```
+
+### 2. Vercel Deployment (Production)
+Vercel cannot connect to `localhost`. You **must** use a hosted MySQL database:
+1. Create a database on [Aiven](https://aiven.io/), [Railway](https://railway.app/), or [TiDB](https://www.pingcap.com/tidb-cloud/).
+2. Add the following **Environment Variables** in your Vercel Project Settings:
+   - `MYSQL_HOST`: Your remote host (e.g., `mysql-instance.aivencloud.com`)
+   - `MYSQL_USER`: Your db username
+   - `MYSQL_PASSWORD`: Your db password
+   - `MYSQL_DATABASE`: `cert_db` (or your chosen name)
+   - `NEXT_PUBLIC_BASE_URL`: `https://certificationmanagementsystem-nine.vercel.app`
+
+## Learn More
+...

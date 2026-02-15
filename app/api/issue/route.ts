@@ -76,6 +76,20 @@ export async function POST(req: Request) {
 
     } catch (err: any) {
         console.error('Database error:', err);
-        return NextResponse.json({ error: err.message || 'Internal Server Error' }, { status: 500 });
+
+        let errorMessage = 'An unexpected error occurred during issuance.';
+        if (err.code === 'ECONNREFUSED') {
+            errorMessage = 'Database Connection Refused. Please ensure your MySQL server is running and accessible.';
+        } else if (err.code === 'ER_ACCESS_DENIED_ERROR') {
+            errorMessage = 'Database Access Denied. Please check your credentials.';
+        } else if (err.message) {
+            errorMessage = err.message;
+        }
+
+        return NextResponse.json({
+            success: false,
+            error: errorMessage,
+            code: err.code
+        }, { status: 500 });
     }
 }
