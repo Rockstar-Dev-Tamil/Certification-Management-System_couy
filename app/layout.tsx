@@ -17,7 +17,8 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "CertiSafe | Secure Digital Certification Management",
-  description: "Issue, manage, and verify professional certificates with ease. Prevent fraud and automate your entire certification lifecycle with CertiSafe.",
+  description: "Issue, manage, and verify professional certificates with ease. Institutional-grade integrity protocol for the digital age.",
+  metadataBase: new URL("https://certificationmanagementsystem-nine.vercel.app"),
 };
 
 export default function RootLayout({

@@ -35,7 +35,8 @@ export default function CertificatePreview({
     }
     const generateQR = async () => {
       try {
-        const verificationUrl = `${window.location.origin}/verify?id=${certificateId}`;
+        const liveBase = 'https://certificationmanagementsystem-nine.vercel.app';
+        const verificationUrl = `${liveBase}/verify?id=${certificateId}`;
         const url = await QRCode.toDataURL(verificationUrl, {
           width: 140,
           margin: 1,

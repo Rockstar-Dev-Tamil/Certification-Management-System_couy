@@ -115,7 +115,7 @@ export default function Dashboard() {
             </aside>
 
             {/* Main Content Area */}
-            <main className="flex-1 min-h-screen overflow-y-auto">
+            <main className="flex-1 min-h-screen overflow-y-auto pt-20 lg:pt-0">
                 {/* Global Workspace Header */}
                 <div className="bg-white/50 backdrop-blur-md sticky top-0 z-20 border-b border-slate-100 px-10 py-6 flex justify-between items-center">
                     <div className="flex items-center gap-4">

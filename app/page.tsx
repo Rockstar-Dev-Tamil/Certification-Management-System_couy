@@ -19,51 +19,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 selection:bg-brand-100 selection:text-brand-900 font-sans">
-      {/* Navbar */}
-      <nav className="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-20 items-center">
-            <div className="flex items-center gap-2 group cursor-pointer">
-              <div className="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center shadow-lg shadow-brand-200 group-hover:rotate-6 transition-transform">
-                <ShieldCheck className="text-white h-6 w-6" />
-              </div>
-              <span className="text-2xl font-black text-slate-900 tracking-tight">CertiSafe</span>
-            </div>
-
-            {/* Desktop Nav */}
-            <div className="hidden md:flex items-center gap-8">
-              <a href="#features" className="text-sm font-bold text-slate-600 hover:text-brand-600 transition-colors">Features</a>
-              <a href="#showcase" className="text-sm font-bold text-slate-600 hover:text-brand-600 transition-colors">Showcase</a>
-              <a href="#security" className="text-sm font-bold text-slate-600 hover:text-brand-600 transition-colors">Integrity</a>
-              <div className="h-6 w-px bg-slate-200 mx-2"></div>
-              <a href="/login" className="text-sm font-bold text-slate-900 hover:text-brand-600">Login</a>
-              <a href="/register" className="bg-slate-900 text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-brand-600 transition-all shadow-md shadow-brand-100 active:scale-95">
-                Join Now
-              </a>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button className="md:hidden p-2 text-slate-600" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-              {isMenuOpen ? <X /> : <Menu />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Nav */}
-        {isMenuOpen && (
-          <div className="md:hidden bg-white border-b border-slate-100 p-6 animate-in slide-in-from-top duration-300">
-            <div className="flex flex-col gap-6">
-              <a href="#features" className="font-bold text-slate-900" onClick={() => setIsMenuOpen(false)}>Features</a>
-              <a href="#showcase" className="font-bold text-slate-900" onClick={() => setIsMenuOpen(false)}>Showcase</a>
-              <a href="#security" className="font-bold text-slate-900" onClick={() => setIsMenuOpen(false)}>Security</a>
-              <div className="h-px bg-slate-100 w-full"></div>
-              <a href="/login" className="font-bold text-slate-900" onClick={() => setIsMenuOpen(false)}>Log In</a>
-              <a href="/register" className="bg-brand-600 text-center text-white py-4 rounded-2xl font-bold" onClick={() => setIsMenuOpen(false)}>Get Started</a>
-            </div>
-          </div>
-        )}
-      </nav>
-
       {/* Hero Section */}
       <div className="relative pt-40 pb-20 lg:pt-56 lg:pb-32 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -278,48 +233,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="py-32 bg-slate-950 text-white border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-20 mb-32">
-            <div className="col-span-1 md:col-span-2">
-              <div className="flex items-center gap-3 mb-10">
-                <div className="w-12 h-12 bg-brand-600 rounded-2xl flex items-center justify-center shadow-2xl shadow-brand-500/20">
-                  <ShieldCheck className="text-white h-7 w-7" />
-                </div>
-                <span className="text-3xl font-black tracking-tight text-white">CertiSafe</span>
-              </div>
-              <p className="text-slate-400 max-w-sm mb-12 leading-relaxed text-lg font-medium italic">
-                Securing the world's most valuable achievements through unbreakable cryptographic infrastructure.
-              </p>
-            </div>
-            <div>
-              <h5 className="font-black text-brand-500 mb-8 uppercase tracking-[0.2em] text-xs">Resources</h5>
-              <ul className="space-y-6 text-slate-500 font-bold">
-                <li><a href="#" className="hover:text-white transition-colors">Documentation</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Open API</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Verification Spec</a></li>
-              </ul>
-            </div>
-            <div>
-              <h5 className="font-black text-brand-500 mb-8 uppercase tracking-[0.2em] text-xs">Foundation</h5>
-              <ul className="space-y-6 text-slate-500 font-bold">
-                <li><a href="#" className="hover:text-white transition-colors">Privacy Charter</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Security Whitepaper</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Contact Expert</a></li>
-              </ul>
-            </div>
-          </div>
-          <div className="flex flex-col md:flex-row justify-between items-center gap-10 border-t border-white/5 pt-16">
-            <p className="text-slate-600 font-black uppercase text-xs tracking-widest">© 2024 CertiSafe Enterprise. All systems active.</p>
-            <div className="flex gap-12 text-slate-500 font-black text-xs uppercase tracking-[0.3em]">
-              <a href="#" className="hover:text-brand-600 transition-colors">TW</a>
-              <a href="#" className="hover:text-brand-600 transition-colors">GH</a>
-              <a href="#" className="hover:text-brand-600 transition-colors">LN</a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
