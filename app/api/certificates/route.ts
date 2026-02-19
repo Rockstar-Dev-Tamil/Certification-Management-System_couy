@@ -10,7 +10,21 @@ export async function GET(req: Request) {
 
     try {
         const url = new URL(req.url);
-        const userId = user.role === 'admin' ? url.searchParams.get('userId') : user.userId;
+        let profileId = user.role === 'admin' ? url.searchParams.get('userId') : null;
+
+        // If not an admin or no userId provided, resolve profile from auth session
+        if (!profileId) {
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('id')
+                .eq('user_id', user.userId)
+                .single();
+            profileId = profile?.id;
+        }
+
+        if (!profileId) {
+            return NextResponse.json([]);
+        }
 
         let query = supabase
             .from('certificates')
@@ -23,11 +37,8 @@ export async function GET(req: Request) {
                     title
                 )
             `)
+            .eq('user_id', profileId)
             .order('issue_date', { ascending: false });
-
-        if (userId) {
-            query = query.eq('user_id', userId);
-        }
 
         const { data: rows, error } = await query;
 

@@ -88,8 +88,8 @@ export default function AdminDashboard({ stats, loading, onRefresh, onRevoke }: 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16">
                 {[
                     { label: "Total Assets Issued", value: stats.total?.toString() || '0', color: "bg-brand-600", icon: Award },
-                    { label: "Active Frameworks", value: "3", color: "bg-violet-600", icon: ShieldCheck },
-                    { label: "Compliance Audits", value: "24", color: "bg-amber-500", icon: UserCheck },
+                    { label: "Active Frameworks", value: stats.templates?.toString() || '0', color: "bg-violet-600", icon: ShieldCheck },
+                    { label: "Institutional Profiles", value: stats.profiles?.toString() || '0', color: "bg-amber-500", icon: UserCheck },
                     { label: "Real-time Traffic", value: stats.today?.toString() || '0', color: "bg-emerald-500", icon: TrendingUp }
                 ].map((stat, i) => (
                     <div key={i} className="glass-card p-10 rounded-[2.5rem] bg-white border-transparent hover:border-brand-100 transition-all group relative overflow-hidden shadow-sm hover:shadow-2xl hover:-translate-y-1 duration-500">
@@ -149,24 +149,39 @@ export default function AdminDashboard({ stats, loading, onRefresh, onRevoke }: 
                     <div className="relative z-10">
                         <h3 className="font-black text-xl mb-10 tracking-tight">Security Alerts</h3>
                         <div className="space-y-8">
-                            {[
-                                { type: "Critical", msg: "Invalid QR scan detected in region AS-E1", time: "2m ago", color: "text-rose-400" },
-                                { type: "Info", msg: "Institutional framework V2 deployed", time: "1h ago", color: "text-emerald-400" },
-                                { type: "Notice", msg: "New admin 'Rockstar' provisioned", time: "3h ago", color: "text-brand-400" },
-                                { type: "Audit", msg: "Bulk issuance completed (1.2k IDs)", time: "5h ago", color: "text-violet-400" },
-                            ].map((item, i) => (
-                                <div key={i} className="flex gap-5 group cursor-pointer hover:translate-x-2 transition-transform">
-                                    <div className={`w-1 h-12 rounded-full ${item.color.replace('text-', 'bg-')} opacity-30 group-hover:opacity-100 transition-opacity`}></div>
-                                    <div>
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${item.color}`}>{item.type}</span>
-                                            <span className="w-1 h-1 bg-slate-700 rounded-full"></span>
-                                            <span className="text-[10px] font-bold text-slate-500 italic">{item.time}</span>
+                            {(!stats.audits || stats.audits.length === 0) ? (
+                                <p className="text-slate-500 text-xs font-bold italic uppercase">No recent security events.</p>
+                            ) : (
+                                stats.audits.map((item: any, i: number) => {
+                                    const colors: Record<string, string> = {
+                                        'BLOCKCHAIN_COMMIT_SIM': 'text-brand-400',
+                                        'CERTIFICATE_REVOCATION': 'text-rose-400',
+                                        'USER_ROLE_UPDATE': 'text-violet-400',
+                                        'USER_BLOCK': 'text-amber-400'
+                                    };
+                                    const color = colors[item.action] || 'text-slate-400';
+
+                                    return (
+                                        <div key={i} className="flex gap-5 group cursor-pointer hover:translate-x-2 transition-transform">
+                                            <div className={`w-1 h-12 rounded-full ${color.replace('text-', 'bg-')} opacity-30 group-hover:opacity-100 transition-opacity`}></div>
+                                            <div>
+                                                <div className="flex items-center gap-2 mb-1">
+                                                    <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${color}`}>
+                                                        {item.action.replace(/_/g, ' ')}
+                                                    </span>
+                                                    <span className="w-1 h-1 bg-slate-700 rounded-full"></span>
+                                                    <span className="text-[10px] font-bold text-slate-500 italic">
+                                                        {new Date(item.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                    </span>
+                                                </div>
+                                                <p className="text-sm font-bold text-slate-300 leading-tight group-hover:text-white transition-colors">
+                                                    ID: {item.target_id || 'System'}
+                                                </p>
+                                            </div>
                                         </div>
-                                        <p className="text-sm font-bold text-slate-300 leading-tight group-hover:text-white transition-colors">{item.msg}</p>
-                                    </div>
-                                </div>
-                            ))}
+                                    );
+                                })
+                            )}
                         </div>
                         <button className="w-full mt-16 py-4 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-colors">View Security Logs</button>
                     </div>

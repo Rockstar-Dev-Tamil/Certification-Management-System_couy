@@ -25,7 +25,21 @@ export async function GET() {
 
         if (todayError) throw todayError;
 
-        // 3. Recent 5 certificates
+        // 3. Template count
+        const { count: templateCount, error: templateError } = await supabase
+            .from('templates')
+            .select('*', { count: 'exact', head: true });
+
+        if (templateError) throw templateError;
+
+        // 4. Institutional Profile count
+        const { count: profileCount, error: profileError } = await supabase
+            .from('profiles')
+            .select('*', { count: 'exact', head: true });
+
+        if (profileError) throw profileError;
+
+        // 5. Recent 5 certificates
         const { data: recent, error: recentError } = await supabase
             .from('certificates')
             .select(`
@@ -45,7 +59,7 @@ export async function GET() {
 
         if (recentError) throw recentError;
 
-        // 4. Trend Data (Manual aggregation since Supabase count is per request)
+        // 6. Trend Data
         const sevenDaysAgo = new Date();
         sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
@@ -67,9 +81,20 @@ export async function GET() {
             count: trendMap[date]
         }));
 
+        // 7. Recent Audit Logs
+        const { data: audits, error: auditError } = await supabase
+            .from('audit_logs')
+            .select('*')
+            .order('created_at', { ascending: false })
+            .limit(5);
+
+        if (auditError) throw auditError;
+
         return NextResponse.json({
             total: total || 0,
             today: todayCount || 0,
+            templates: templateCount || 0,
+            profiles: profileCount || 0,
             recent: recent.map(r => ({
                 id: r.id,
                 certificate_id: r.certificate_id,
@@ -78,7 +103,8 @@ export async function GET() {
                 full_name: r.profiles ? (r.profiles as any).full_name : 'N/A',
                 template_name: r.templates ? (r.templates as any).title : 'Standard'
             })),
-            trend
+            trend,
+            audits: audits || []
         });
     } catch (err: any) {
         console.error('Analytics error:', err);
